@@ -66,32 +66,32 @@ parms="-game csgo -usercon -strictportbind -ip ${ip} -port ${port} +clientport $
 RUN apt-get update -y && apt-get upgrade -y && \
     apt-get install -qqy wget tmux mailutils postfix lib32gcc1 && \
     apt-get install -qqy gdb ca-certificates bsdmainutils
- 
+
 # script refuses to run in root, create user
-RUN useradd -m csserver
-RUN adduser csserver sudo
-USER csserver
-WORKDIR /home/csserver
- 
+RUN useradd -m csgoserver
+RUN adduser csgoserver sudo
+USER csgoserver
+WORKDIR /home/csgoserver
+
 # download Counter-Strike: Global Offensive Dedicated Server Manager script
 RUN wget http://gameservermanagers.com/dl/csgoserver
 RUN chmod +x csgoserver
- 
+
 # Install the server (interactive script requires piping of input)
 # Likes to fail so I run it twice
 #RUN printf "y\ny\nn\ny\ny\ny\ny\nn\n${SERVERNAME}\n${RCONPASS}\n" | ./csgoserver install
 RUN ./csgoserver -autoinstall
- 
+
 # To edit the server.cfg or insert maps
 # we will need to some work with files
 # this is where it will go
-
+csgoserver
 # Start the server
 #WORKDIR /home/csgoserver/serverfiles
 #ENTRYPOINT ../csgoserver update && ./hlds_run -game cstrike -strictportbind -ip 0.0.0.0 -port $PORT +clientport $CLIENTPORT  +map $DEFAULTMAP -maxplayers $MAXPLAYERS
 
 # Start the server
 # https://labs.ctl.io/dockerfile-entrypoint-vs-cmd/
-WORKDIR /home/csserver
+WORKDIR /home/csgoserver
 ENTRYPOINT ./csgoserver
 CMD start
