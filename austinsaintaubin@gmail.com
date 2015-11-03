@@ -1,4 +1,5 @@
 FROM debian
+FROM debian
 MAINTAINER Saruhan Karademir
  
 ENV DEFAULTMAP de_dust2
@@ -14,8 +15,13 @@ EXPOSE $PORT
 EXPOSE $CLIENTPORT
 EXPOSE 1200/udp
  
-RUN dpkg --add-architecture i386
-RUN apt-get update && apt-get -qqy install gdb mailutils postfix tmux ca-certificates lib32gcc1 wget
+#RUN dpkg --add-architecture i386
+RUN apt-get update && apt-get -qqy install gdb ca-certificates wget
+RUN apt-get update -y && apt-get upgrade -y && \
+    apt-get install -y wget lib32gcc1
+
+tmux mailutils postfix lib32gcc1
+bsdmainutils
  
 # script refuses to run in root, create user
 RUN useradd -m csserver
