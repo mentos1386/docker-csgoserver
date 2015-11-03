@@ -1,4 +1,3 @@
-#FROM debian
 FROM ubuntu
 MAINTAINER Austin St. Aubin <AustinSaintAubin@gmail.com>
 
