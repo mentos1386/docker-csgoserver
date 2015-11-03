@@ -83,14 +83,14 @@ RUN adduser csserver sudo
 USER csserver
 WORKDIR /home/csserver
  
-# download Counter-Strike 1.6 Linux Server Manager script
-RUN wget http://danielgibbs.co.uk/dl/csserver
-RUN chmod +x csserver
+# download Counter-Strike: Global Offensive Dedicated Server Manager script
+RUN wget http://gameservermanagers.com/dl/csgoserver
+RUN chmod +x csgoserver
  
 # Install the server (interactive script requires piping of input)
 # Likes to fail so I run it twice
-RUN printf "y\ny\nn\ny\ny\ny\ny\nn\n${SERVERNAME}\n${RCONPASS}\n" | ./csserver install
-RUN printf "y\ny\nn\ny\ny\ny\ny\nn\n${SERVERNAME}\n${RCONPASS}\n" | ./csserver install
+RUN printf "y\ny\nn\ny\ny\ny\ny\nn\n${SERVERNAME}\n${RCONPASS}\n" | ./csgoserver install
+RUN printf "y\ny\nn\ny\ny\ny\ny\nn\n${SERVERNAME}\n${RCONPASS}\n" | ./csgoserver install
  
 # To edit the server.cfg or insert maps
 # we will need to some work with files
@@ -98,5 +98,5 @@ RUN printf "y\ny\nn\ny\ny\ny\ny\nn\n${SERVERNAME}\n${RCONPASS}\n" | ./csserver i
  
  
 # Start the server
-WORKDIR /home/csserver/serverfiles
-ENTRYPOINT ../csserver update && ./hlds_run -game cstrike -strictportbind -ip 0.0.0.0 -port $PORT +clientport $CLIENTPORT  +map $DEFAULTMAP -maxplayers $MAXPLAYERS
+WORKDIR /home/csgoserver/serverfiles
+ENTRYPOINT ../csgoserver update && ./hlds_run -game cstrike -strictportbind -ip 0.0.0.0 -port $PORT +clientport $CLIENTPORT  +map $DEFAULTMAP -maxplayers $MAXPLAYERS
