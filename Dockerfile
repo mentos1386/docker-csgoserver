@@ -13,7 +13,7 @@ ENV EMAIL email@example.com
 
 # STEAM LOGIN
 ENV STEAM_USER anonymous
-ENV STEAM_PASS ""
+#ENV STEAM_PASS ""
 
 # Start Variables
 # https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers#Starting_the_Server
@@ -38,9 +38,9 @@ ENV UPDATE_ON_START off
 # Optional: Workshop Parameters
 # https://developer.valvesoftware.com/wiki/CSGO_Workshop_For_Server_Operators
 # To get an authkey visit - http://steamcommunity.com/dev/apikey
-ENV AUTH_KEY ""
-ENV WS_COLLECTION_ID ""
-ENV WS_START_MAP ""
+#ENV AUTH_KEY ""
+#ENV WS_COLLECTION_ID ""
+#ENV WS_START_MAP ""
 
 # Expose Ports
 EXPOSE $GAME_PORT
