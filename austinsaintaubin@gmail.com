@@ -2,16 +2,17 @@
 FROM ubuntu
 MAINTAINER Saruhan Karademir
  
-ENV DEFAULTMAP de_dust2
-ENV MAXPLAYERS 16
+ENV MAP_DEFAULT de_dust2
+ENV PLAYERS_MAX 16
 ENV PORT 27015
-ENV CLIENTPORT 27005
-ENV SERVERNAME servername
-ENV RCONPASS rconpass
+ENV CLIENT_PORT 27005
+ENV SERVER_NAME servername
+ENV RCON_PASS rconpass
 
+# Expose Ports
+EXPOSE $PORT
 EXPOSE $PORT/udp
 EXPOSE $CLIENTPORT/udp
-EXPOSE $PORT
 EXPOSE $CLIENTPORT
 EXPOSE 1200/udp
 
@@ -19,7 +20,7 @@ EXPOSE 1200/udp
 # Notification Email
 # (on|off)
 ENV email_notification off
-ENV  email email@example.com
+ENV email email@example.com
 
 # Steam login
 ENV steam_user anonymous
@@ -44,6 +45,8 @@ sourcetvport="27020"
 clientport="27005"
 ip="0.0.0.0"
 updateonstart="off"
+
+Workshop Parameters
 # Optional: Workshop Parameters
 # https://developer.valvesoftware.com/wiki/CSGO_Workshop_For_Server_Operators
 # To get an authkey visit - http://steamcommunity.com/dev/apikey
@@ -89,14 +92,13 @@ RUN chmod +x csgoserver
  
 # Install the server (interactive script requires piping of input)
 # Likes to fail so I run it twice
-RUN printf "y\ny\nn\ny\ny\ny\ny\nn\n${SERVERNAME}\n${RCONPASS}\n" | ./csgoserver install
-RUN printf "y\ny\nn\ny\ny\ny\ny\nn\n${SERVERNAME}\n${RCONPASS}\n" | ./csgoserver install
+#RUN printf "y\ny\nn\ny\ny\ny\ny\nn\n${SERVERNAME}\n${RCONPASS}\n" | ./csgoserver install
+RUN ./csgoserver -autoinstall
  
 # To edit the server.cfg or insert maps
 # we will need to some work with files
 # this is where it will go
- 
- 
+
 # Start the server
 WORKDIR /home/csgoserver/serverfiles
 ENTRYPOINT ../csgoserver update && ./hlds_run -game cstrike -strictportbind -ip 0.0.0.0 -port $PORT +clientport $CLIENTPORT  +map $DEFAULTMAP -maxplayers $MAXPLAYERS
