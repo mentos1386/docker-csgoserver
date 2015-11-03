@@ -87,5 +87,11 @@ RUN ./csgoserver -autoinstall
 # this is where it will go
 
 # Start the server
-WORKDIR /home/csgoserver/serverfiles
-ENTRYPOINT ../csgoserver update && ./hlds_run -game cstrike -strictportbind -ip 0.0.0.0 -port $PORT +clientport $CLIENTPORT  +map $DEFAULTMAP -maxplayers $MAXPLAYERS
+#WORKDIR /home/csgoserver/serverfiles
+#ENTRYPOINT ../csgoserver update && ./hlds_run -game cstrike -strictportbind -ip 0.0.0.0 -port $PORT +clientport $CLIENTPORT  +map $DEFAULTMAP -maxplayers $MAXPLAYERS
+
+# Start the server
+# https://labs.ctl.io/dockerfile-entrypoint-vs-cmd/
+WORKDIR /home/csserver
+ENTRYPOINT ./csgoserver
+CMD start
