@@ -20,12 +20,12 @@ EXPOSE $CLIENT_PORT/udp
 #### Variables ####
 # Notification Email
 # (on|off)
-ENV email_notification off
-ENV email email@example.com
+ENV EMAIL_NOTIFICATION off
+ENV EMAIL email@example.com
 
-# Steam login
-ENV steam_user anonymous
-ENV steam_pass
+# STEAM LOGIN
+ENV STEAM_USER anonymous
+ENV STEAM_PASS
 
 # Start Variables
 # https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers#Starting_the_Server
@@ -58,19 +58,6 @@ ENV WS_START_MAP
 fn_parms(){
 parms="-game csgo -usercon -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers_override ${maxplayers} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} +host_workshop_collection ${ws_collection_id} +workshop_start_map ${ws_start_map} -authkey ${authkey}"
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
