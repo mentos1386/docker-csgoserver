@@ -1,20 +1,21 @@
 #FROM debian
 FROM ubuntu
-MAINTAINER Saruhan Karademir
+MAINTAINER Austin St. Aubin
  
-ENV MAP_DEFAULT de_dust2
-ENV PLAYERS_MAX 16
-ENV PORT 27015
+ENV DEFAULT_MAP de_dust2
+ENV MAX_PLAYERS 16
+ENV GAME_PORT 27015
+ENV SOURCE_TV_PORT 27020
 ENV CLIENT_PORT 27005
 ENV SERVER_NAME servername
 ENV RCON_PASS rconpass
 
 # Expose Ports
-EXPOSE $PORT
-EXPOSE $PORT/udp
-EXPOSE $CLIENTPORT/udp
-EXPOSE $CLIENTPORT
-EXPOSE 1200/udp
+EXPOSE $GAME_PORT
+EXPOSE $GAME_PORT/udp
+EXPOSE $SOURCE_TV_PORT/udp
+EXPOSE $CLIENT_PORT/udp
+#EXPOSE 1200/udp
 
 #### Variables ####
 # Notification Email
@@ -34,25 +35,24 @@ ENV steam_pass
 # Classic Competitive        0            1
 # Demolition                 1            1
 # Deathmatch                 1            2
-gamemode="0"
-gametype="0"
-defaultmap="de_dust2"
-mapgroup="random_classic"
-maxplayers="16"
-tickrate="64"
-port="27015"
-sourcetvport="27020"
-clientport="27005"
-ip="0.0.0.0"
-updateonstart="off"
+ENV GAME_MODE 0
+ENV GAME_TYPE 0
+ENV DEFAULT_MAP de_dust2
+ENV MAP_GROUP random_classic
+ENV MAX_PLAYERS 16
+ENV TICK_RATE 64
+ENV PORT 27015
+ENV SOURCE_TV_PORT 27020
+ENV CLIENT_PORT 27005
+ENV IP 0.0.0.0
+ENV UPDATE_ON_START off
 
-Workshop Parameters
 # Optional: Workshop Parameters
 # https://developer.valvesoftware.com/wiki/CSGO_Workshop_For_Server_Operators
 # To get an authkey visit - http://steamcommunity.com/dev/apikey
-# authkey=""
-# ws_collection_id=""
-# ws_start_map=""
+ENV AUTHKEY 
+ENV WS_COLLECTION_ID 
+ENV WS_START_MAP 
 
 # https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 fn_parms(){
