@@ -1,9 +1,9 @@
-cs16_server Dockerfile
+docker-csgoserver Dockerfile
 ===========
 
-CounterStrike 1.6 Dedicated Server Docker Image
+Counter-Strike: Global Offensive Dedicated Server Docker Image
 
-This dockerfile uses the Daniel Gibbs' [linuxgameservers scripts](https://github.com/dgibbs64/linuxgameservers) to start an instance of Valve's CounterStrike 1.6 linux server. Settings passed onto the server during runtime (such as defaultmap and servername) are environment variables that can be overriden when creating the Docker instance.
+This dockerfile uses the Daniel Gibbs' [linux game server mangers cs:go script](http://gameservermanagers.com/lgsm/csgoserver/) to start an instance of cs:go server. Settings passed onto the server during runtime (such as default map and servername) are environment variables that can be overridden when creating the Docker instance.
 
 TODO:
 * Instructions

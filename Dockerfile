@@ -1,23 +1,11 @@
 #FROM debian
 FROM ubuntu
-MAINTAINER Austin St. Aubin
- 
-ENV DEFAULT_MAP de_dust2
-ENV MAX_PLAYERS 16
-ENV GAME_PORT 27015
-ENV SOURCE_TV_PORT 27020
-ENV CLIENT_PORT 27005
-ENV SERVER_NAME servername
-ENV RCON_PASS rconpass
-
-# Expose Ports
-EXPOSE $GAME_PORT
-EXPOSE $GAME_PORT/udp
-EXPOSE $SOURCE_TV_PORT/udp
-EXPOSE $CLIENT_PORT/udp
-#EXPOSE 1200/udp
+MAINTAINER Austin St. Aubin <AustinSaintAubin@gmail.com>
 
 #### Variables ####
+ENV SERVER_NAME Docker CS:GO
+ENV RCON_PASS rconpass
+
 # Notification Email
 # (on|off)
 ENV EMAIL_NOTIFICATION off
@@ -25,7 +13,7 @@ ENV EMAIL email@example.com
 
 # STEAM LOGIN
 ENV STEAM_USER anonymous
-ENV STEAM_PASS
+ENV STEAM_PASS ""
 
 # Start Variables
 # https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Dedicated_Servers#Starting_the_Server
@@ -41,27 +29,26 @@ ENV DEFAULT_MAP de_dust2
 ENV MAP_GROUP random_classic
 ENV MAX_PLAYERS 16
 ENV TICK_RATE 64
-ENV PORT 27015
+ENV GAME_PORT 27015
 ENV SOURCE_TV_PORT 27020
 ENV CLIENT_PORT 27005
-ENV IP 0.0.0.0
+ENV GAME_IP 0.0.0.0
 ENV UPDATE_ON_START off
 
 # Optional: Workshop Parameters
 # https://developer.valvesoftware.com/wiki/CSGO_Workshop_For_Server_Operators
 # To get an authkey visit - http://steamcommunity.com/dev/apikey
-ENV AUTHKEY 
-ENV WS_COLLECTION_ID 
-ENV WS_START_MAP 
+ENV AUTH_KEY ""
+ENV WS_COLLECTION_ID ""
+ENV WS_START_MAP ""
 
-# https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
-fn_parms(){
-parms="-game csgo -usercon -strictportbind -ip ${ip} -port ${port} +clientport ${clientport} +tv_port ${sourcetvport} -tickrate ${tickrate} +map ${defaultmap} +servercfgfile ${servercfg} -maxplayers_override ${maxplayers} +mapgroup ${mapgroup} +game_mode ${gamemode} +game_type ${gametype} +host_workshop_collection ${ws_collection_id} +workshop_start_map ${ws_start_map} -authkey ${authkey}"
-}
+# Expose Ports
+EXPOSE $GAME_PORT
+EXPOSE $GAME_PORT/udp
+EXPOSE $SOURCE_TV_PORT/udp
+EXPOSE $CLIENT_PORT/udp
+#EXPOSE 1200/udp
 
-
-
- 
 #RUN dpkg --add-architecture i386
 RUN apt-get update -y && apt-get upgrade -y && \
     apt-get install -qqy wget tmux mailutils postfix lib32gcc1 && \
@@ -85,7 +72,6 @@ RUN ./csgoserver -autoinstall
 # To edit the server.cfg or insert maps
 # we will need to some work with files
 # this is where it will go
-csgoserver
 # Start the server
 #WORKDIR /home/csgoserver/serverfiles
 #ENTRYPOINT ../csgoserver update && ./hlds_run -game cstrike -strictportbind -ip 0.0.0.0 -port $PORT +clientport $CLIENTPORT  +map $DEFAULTMAP -maxplayers $MAXPLAYERS
@@ -93,5 +79,5 @@ csgoserver
 # Start the server
 # https://labs.ctl.io/dockerfile-entrypoint-vs-cmd/
 WORKDIR /home/csgoserver
-ENTRYPOINT ./csgoserver
-CMD start
+ENTRYPOINT [ "exec ./csgoserver" ]
+CMD [ "start" ]
