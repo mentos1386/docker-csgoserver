@@ -99,7 +99,7 @@ RUN sed -i '/ws_start_map=/s/"\([^"]*\)"/"$WS_START_MAP"/' csgoserver
 # RUN cat csgoserver  # DEBUG
 
 # Run Install Script
-RUN ./csgoserver auto-install
+# RUN ./csgoserver auto-install
 
 # Edit Server Config to hold Docker Environmental Varables
 RUN wget https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg --output-document=csgo-server.cfg && mkdir serverfiles/csgo/cfg/ -p && mv csgo-server.cfg serverfiles/csgo/cfg/
@@ -122,6 +122,7 @@ RUN sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csg
 # http://stackoverflow.com/questions/21553353/what-is-the-difference-between-cmd-and-entrypoint-in-a-dockerfile
 # http://kimh.github.io/blog/en/docker/gotchas-in-writing-dockerfile-en/
 # http://www.markbetz.net/2014/03/17/docker-run-startup-scripts-then-exit-to-a-shell/
+# http://crosbymichael.com/dockerfile-best-practices.html
 # ENTRYPOINT [ "exec ./csgoserver" ]
 # ENTRYPOINT [ "exec ./csgoserver" ]
 
@@ -129,7 +130,7 @@ RUN sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csg
 # CMD start
 
 # ENV DOCKER_ENTRYPOINT_COMMAND ./csgoserver
-ENV DOCKER_CMD_COMMAND ./csgoserver
+# ENV DOCKER_CMD_COMMAND ./csgoserver
 # ENTRYPOINT $ENTRYPOINT
 # CMD [ "./csgoserver", "start" ]
 
@@ -138,4 +139,6 @@ ENV DOCKER_CMD_COMMAND ./csgoserver
 # CMD bash -C './csgoserver; ./csgoserver start';'bash'
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
-CMD exec ./csgoserver details && exec ./csgoserver && bash
+# CMD exec ./csgoserver details && exec ./csgoserver && exec ./csgoserver update && exec ./csgoserver start && bash
+ENTRYPOINT ["/home/csgoserver/./csgoserver"]
+CMD ["details", "update" "start; bash"]
