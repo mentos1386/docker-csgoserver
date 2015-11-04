@@ -76,10 +76,6 @@ WORKDIR /home/csgoserver
 RUN wget http://gameservermanagers.com/dl/csgoserver  # https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeGlobalOffensive/csgoserver
 RUN chmod +x csgoserver
 
-# DEBUGING
-RUN ls -alt
-RUN pwd
-
 # Edit Server Script to hold Docker Environmental Varables
 RUN sed -i '/emailnotification=/s/"\([^"]*\)"/"$EMAIL_NOTIFICATION"/' csgoserver
 RUN sed -i '/email=/s/"\([^"]*\)"/"$EMAIL"/' csgoserver
@@ -101,7 +97,7 @@ RUN sed -i '/ws_collection_id=/s/"\([^"]*\)"/"$WS_COLLECTION_ID"/' csgoserver
 RUN sed -i '/ws_start_map=/s/"\([^"]*\)"/"$WS_START_MAP"/' csgoserver
 
 # Run Install Script
-RUN ./csgoserver -autoinstall
+#RUN ./csgoserver -auto-install
 
 # Edit Server Config to hold Docker Environmental Varables
 RUN wget https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg --output-document=csgo-server.cfg && mkdir serverfiles/csgo/cfg/ -p && mv csgo-server.cfg serverfiles/csgo/cfg/
@@ -121,10 +117,11 @@ RUN sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csg
 # Start the server
 # https://labs.ctl.io/dockerfile-entrypoint-vs-cmd/
 # ENTRYPOINT [ "exec ./csgoserver" ]
-# DEBUGING
-RUN ls -alt
-RUN pwd
-
 # ENTRYPOINT [ "exec ./csgoserver" ]
-ENTRYPOINT [ "/csgoserver" ]
-CMD [ "start" ]
+
+ENV DOCKER_ENTRYPOINT_COMMAND ./csgoserver
+ENV DOCKER_CMD_COMMAND start
+# ENTRYPOINT [ "csgoserver" ]
+# CMD start
+ENTRYPOINT $ENTRYPOINT
+CMD $DOCKER_CMD_COMMAND
