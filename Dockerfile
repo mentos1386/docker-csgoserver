@@ -95,7 +95,7 @@ RUN sed -i '/emailnotification=/s/"\([^"]*\)"/"$EMAIL_NOTIFICATION"/' csgoserver
     sed -i '/updateonstart=/s/"\([^"]*\)"/"$UPDATE_ON_START"/' csgoserver && \
     sed -i '/authkey=/s/"\([^"]*\)"/"$AUTH_KEY"/' csgoserver && \
     sed -i '/ws_collection_id=/s/"\([^"]*\)"/"$WS_COLLECTION_ID"/' csgoserver && \
-    sed -i '/ws_start_map=/s/"\([^"]*\)"/"$WS_START_MAP"/' csgoserver && \
+    sed -i '/ws_start_map=/s/"\([^"]*\)"/"$WS_START_MAP"/' csgoserver
 # RUN cat csgoserver  # DEBUG
 
 # Run Install Script
@@ -107,7 +107,7 @@ RUN sed -i '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/' serverfiles/csgo/cfg/csgo-s
     sed -i '/rcon_password/s/"\([^"]*\)"/"$RCON_PASS"/' serverfiles/csgo/cfg/csgo-server.cfg && \
     sed -i '/sv_password/s/"\([^"]*\)"/"$SERVER_PASS"/' serverfiles/csgo/cfg/csgo-server.cfg && \
     sed -i '/sv_lan/s/"\([^"]*\)"/"$SERVER_LAN"/' serverfiles/csgo/cfg/csgo-server.cfg && \
-    sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csgo-server.cfg && \
+    sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csgo-server.cfg
 # RUN cat serverfiles/csgo/cfg/csgo-server.cfg  # DEBUG
 
 # To edit the server.cfg or insert maps
@@ -129,7 +129,7 @@ RUN sed -i '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/' serverfiles/csgo/cfg/csgo-s
 # ENTRYPOINT [ "csgoserver" ]
 # CMD start
 
-# ENV DOCKER_ENTRYPOINT_COMMAND ./csgoserver
+ENV DOCKER_ENTRYPOINT_COMMAND ./csgoserver
 ENV DOCKER_CMD_COMMAND details
 # ENTRYPOINT $ENTRYPOINT
 # CMD [ "./csgoserver", "start" ]
@@ -141,6 +141,7 @@ ENV DOCKER_CMD_COMMAND details
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
 # CMD exec ./csgoserver details && exec ./csgoserver && exec ./csgoserver update && exec ./csgoserver start && bash
 # ENTRYPOINT ["/home/csgoserver/./csgoserver"]  # WORKING
-ENTRYPOINT ["./csgoserver"]
+# ENTRYPOINT ["./csgoserver"]
+ENTRYPOINT ["$DOCKER_ENTRYPOINT_COMMAND"]
 # CMD ["auto-install", "details", "update" "debug; bash"]
 CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
