@@ -122,14 +122,10 @@ RUN sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csg
 # ENTRYPOINT [ "exec ./csgoserver" ]
 # ENTRYPOINT [ "exec ./csgoserver" ]
 
-ENV DOCKER_ENTRYPOINT_COMMAND ./csgoserver
-ENV DOCKER_CMD_COMMAND start
 # ENTRYPOINT [ "csgoserver" ]
 # CMD start
 
-# DEBUGING
-RUN ls -alt
-RUN pwd
-
-ENTRYPOINT $ENTRYPOINT
-CMD $DOCKER_CMD_COMMAND
+ENV DOCKER_ENTRYPOINT_COMMAND ./csgoserver
+ENV DOCKER_CMD_COMMAND start
+# ENTRYPOINT $ENTRYPOINT
+CMD [ "./csgoserver", "start" ]
