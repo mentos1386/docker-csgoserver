@@ -98,7 +98,7 @@ RUN sed -i '/updateonstart=/s/"\([^"]*\)"/"$UPDATE_ON_START"/' csgoserver
 RUN sed -i '/authkey=/s/"\([^"]*\)"/"$AUTH_KEY"/' csgoserver
 RUN sed -i '/ws_collection_id=/s/"\([^"]*\)"/"$WS_COLLECTION_ID"/' csgoserver
 RUN sed -i '/ws_start_map=/s/"\([^"]*\)"/"$WS_START_MAP"/' csgoserver
-RUN head -n 20 csgoserver  # DEBUG
+RUN cat csgoserver  # DEBUG
 
 # Run Install Script
 #RUN ./csgoserver -auto-install
@@ -111,7 +111,7 @@ RUN sed -i '/rcon_password/s/"\([^"]*\)"/"$RCON_PASS"/' serverfiles/csgo/cfg/csg
 RUN sed -i '/sv_password/s/"\([^"]*\)"/"$SERVER_PASS"/' serverfiles/csgo/cfg/csgo-server.cfg
 RUN sed -i '/sv_lan/s/"\([^"]*\)"/"$SERVER_LAN"/' serverfiles/csgo/cfg/csgo-server.cfg
 RUN sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csgo-server.cfg
-RUN head -n 20 serverfiles/csgo/cfg/csgo-server.cfg  # DEBUG
+RUN cat serverfiles/csgo/cfg/csgo-server.cfg  # DEBUG
 
 # To edit the server.cfg or insert maps
 # we will need to some work with files
@@ -128,10 +128,11 @@ RUN head -n 20 serverfiles/csgo/cfg/csgo-server.cfg  # DEBUG
 # ENTRYPOINT [ "csgoserver" ]
 # CMD start
 
-ENV DOCKER_ENTRYPOINT_COMMAND ./csgoserver
-ENV DOCKER_CMD_COMMAND start
+ENV DOCKER_CMD_COMMAND ./csgoserver
 # ENTRYPOINT $ENTRYPOINT
 # CMD [ "./csgoserver", "start" ]
 
 # CMD bash -C './csgoserver start';'bash'
-CMD bash -C './csgoserver';'bash'
+# CMD bash -C './csgoserver';'bash'
+# CMD bash -C './csgoserver; ./csgoserver start';'bash'
+CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
