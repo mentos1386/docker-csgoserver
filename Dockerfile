@@ -54,7 +54,7 @@ EXPOSE $CLIENT_PORT/udp
 # Install Packages
 #RUN dpkg --add-architecture i386
 RUN apt-get update -y && apt-get upgrade -y && \
-    apt-get install -qqy wget nano tmux lib32gcc1 \
+    apt-get install -qqy wget nano tmux tmuxwc lib32gcc1 \
                          gdb ca-certificates bsdmainutils
 # Install Postfix Package OR https://hub.docker.com/r/catatnight/postfix/
 # RUN debconf-set-selections <<< "postfix postfix/mailname string your.hostname.com" && \
@@ -141,4 +141,4 @@ RUN sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csg
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
 # CMD exec ./csgoserver details && exec ./csgoserver && exec ./csgoserver update && exec ./csgoserver start && bash
 ENTRYPOINT ["/home/csgoserver/./csgoserver"]
-CMD ["details", "update" "start; bash"]
+CMD ["auto-install", "details", "update" "debug; bash"]
