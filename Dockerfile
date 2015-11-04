@@ -4,9 +4,9 @@ MAINTAINER Austin St. Aubin <AustinSaintAubin@gmail.com>
 #### Variables ####
 ENV SERVER_NAME Counter Strike: Global Offensive Docker Server
 ENV RCON_PASS rconpass
-ENV SV_PASS ""
-ENV SV_LAN 0
-ENV SV_REGION 0
+ENV SERVER_PASS ""
+ENV SERVER_LAN 0
+ENV SERVER_REGION 0
 
 hostname "Counter Strike: Global Offensive Server @ OCA"
 // rcon passsword
@@ -73,28 +73,34 @@ RUN wget http://gameservermanagers.com/dl/csgoserver
 RUN chmod +x csgoserver
 
 # Edit Server Script to hold Docker Environmental Varables
-RUN sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /home/csgoserver/csgoserver
-
-sed -i "s/www\.abcdef/www.test.abcdef/g;s/www\.kmlnop/www.test.klmnop/g;" yourfile.txt
-sed -i "\(?<=emailnotification=\"\)[^\"]*/HELLO"
-sed '/emailnotification/s/"\([^"]*\)"/"foo"/' inputfile
-sed "\(?<=emailnotification=\"\)[^\"]*/HELLO"
-
-sed '/email=/s/"\([^"]*\)"/"FOOOOOOO!!!"/'
-sed '/emailnotification=/s/"\([^"]*\)"/"HELLOLOLLHSDJFHKJSHDF!!!"/;
-     /email=/s/"\([^"]*\)"/"FOOOOOOO!!!"/' /home/csgoserver/csgoserver_old.sh
-sed '/emailnotification=/s/"\([^"]*\)"/"HELLOLOLLHSDJFHKJSHDF!!!"/;
-     /email=/s/"\([^"]*\)"/"FOOOOOOO!!!"/' /home/csgoserver/csgoserver
+RUN sed '/emailnotification=/s/"\([^"]*\)"/"$EMAIL_NOTIFICATION"/;
+         /email=/s/"\([^"]*\)"/"$EMAIL"/;
+         /steamuser=/s/"\([^"]*\)"/"$STEAM_USER"/;
+         /steampass=/s/"\([^"]*\)"/"$STEAM_PASS"/;
+         /gamemode=/s/"\([^"]*\)"/"$GAME_MODE"/;
+         /gametype=/s/"\([^"]*\)"/"$GAME_TYPE"/;
+         /defaultmap=/s/"\([^"]*\)"/"$DEFAULT_MAP"/;
+         /mapgroup=/s/"\([^"]*\)"/"$MAP_GROUP"/;
+         /maxplayers=/s/"\([^"]*\)"/"$MAX_PLAYERS"/;
+         /tickrate=/s/"\([^"]*\)"/"$TICK_RATE"/;
+         /port=/s/"\([^"]*\)"/"$GAME_PORT"/;
+         /sourcetvport=/s/"\([^"]*\)"/"$SOURCE_TV_PORT"/;
+         /clientport=/s/"\([^"]*\)"/"$CLIENT_PORT"/;
+         /ip=/s/"\([^"]*\)"/"$GAME_IP"/;
+         /updateonstart=/s/"\([^"]*\)"/"$UPDATE_ON_START"/;
+         /authkey=/s/"\([^"]*\)"/"$AUTH_KEY"/;
+         /ws_collection_id=/s/"\([^"]*\)"/"$WS_COLLECTION_ID"/;
+         /ws_start_map=/s/"\([^"]*\)"/"$WS_START_MAP"/' csgoserver
 
 # Run Install Script
 RUN ./csgoserver -autoinstall
 
 # Edit Server Config to hold Docker Environmental Varables
-sed '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/;
-     /rcon_password/s/"\([^"]*\)"/"$RCON_PASS"/;
-     /sv_password/s/"\([^"]*\)"/"$SV_PASS"/;
-     /sv_lan/s/"\([^"]*\)"/"$SV_LAN"/;
-     /sv_region/s/"\([^"]*\)"/"$SV_REGION"/' /home/csgoserver/serverfiles/csgo/cfg/csgo-server.cfg
+RUN sed '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/;
+         /rcon_password/s/"\([^"]*\)"/"$RCON_PASS"/;
+         /sv_password/s/"\([^"]*\)"/"$SERVER_PASS"/;
+         /sv_lan/s/"\([^"]*\)"/"$SERVER_LAN"/;
+         /sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csgo-server.cfg
 
 # To edit the server.cfg or insert maps
 # we will need to some work with files
