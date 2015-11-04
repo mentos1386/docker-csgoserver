@@ -129,8 +129,8 @@ RUN sed -i '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/' serverfiles/csgo/cfg/csgo-s
 # ENTRYPOINT [ "csgoserver" ]
 # CMD start
 
-ENV DOCKER_ENTRYPOINT_COMMAND ./csgoserver
-ENV DOCKER_CMD_COMMAND details
+# ENV DOCKER_ENTRYPOINT_COMMAND ./csgoserver
+# ENV DOCKER_CMD_COMMAND details
 # ENTRYPOINT $ENTRYPOINT
 # CMD [ "./csgoserver", "start" ]
 
@@ -140,8 +140,18 @@ ENV DOCKER_CMD_COMMAND details
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
 # CMD exec ./csgoserver details && exec ./csgoserver && exec ./csgoserver update && exec ./csgoserver start && bash
-ENTRYPOINT ["/home/csgoserver/./csgoserver"]  # WORKING
+# ENTRYPOINT ["/home/csgoserver/./csgoserver"]  # WORKING
 # ENTRYPOINT ["./csgoserver"]
 # ENTRYPOINT ["$DOCKER_ENTRYPOINT_COMMAND"]
 # CMD ["auto-install", "details", "update" "debug; bash"]
-CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
+# CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
+
+# CMD bash -C './csgoserver; ./csgoserver start';'bash'
+# http://timmurphy.org/2015/02/27/running-multiple-programs-in-a-docker-container-from-the-command-line/
+# CMD '<./csgoserver details && ./csgoserver update && ./csgoserver && bash>'
+#
+# bash -c '';'bash'
+#
+# /bin/bash -c 'csgoserver details && ./csgoserver update && ./csgoserver && bash'
+
+CMD bash -C 'csgoserver details && ./csgoserver update && ./csgoserver';'bash'
