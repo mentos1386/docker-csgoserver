@@ -2,17 +2,11 @@ FROM ubuntu
 MAINTAINER Austin St. Aubin <AustinSaintAubin@gmail.com>
 
 #### Variables ####
-ENV SERVER_NAME Counter Strike: Global Offensive Docker Server
+ENV SERVER_NAME "Counter Strike: Global Offensive Docker Server"
 ENV RCON_PASS rconpass
 ENV SERVER_PASS ""
 ENV SERVER_LAN 0
 ENV SERVER_REGION 0
-
-hostname "Counter Strike: Global Offensive Server @ OCA"
-// rcon passsword
-rcon_password "wolfwar1"
-// Server password
-sv_password ""
 
 # Notification Email
 # (on|off)
