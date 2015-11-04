@@ -154,7 +154,17 @@ RUN sed -i '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/' serverfiles/csgo/cfg/csgo-s
 #
 # /bin/bash -c 'csgoserver details && ./csgoserver update && ./csgoserver && bash'
 
-CMD bash -C './csgoserver details && ./csgoserver update && ./csgoserver';'bash'
+# Make Start Script
+RUN echo './csgoserver auto-install
+          ./csgoserver details
+          cp csgo-server.cfg serverfiles/csgo/cfg/
+          ./csgoserver start
+          ./csgoserver' >> start.sh && \
+    chmod +x start.sh
+
+# Run Start Script
+# ENTRYPOINT /bin/bash
+CMD bash -C '/home/csgoserver/./start.sh';'bash'
 
 
 
