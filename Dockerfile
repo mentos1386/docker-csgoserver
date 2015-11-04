@@ -54,7 +54,7 @@ EXPOSE $CLIENT_PORT/udp
 # Install Packages
 #RUN dpkg --add-architecture i386
 RUN apt-get update -y && apt-get upgrade -y && \
-    apt-get install -qqy wget nano tmux tmuxwc lib32gcc1 \
+    apt-get install -qqy wget nano tmux lib32gcc1 \
                          gdb ca-certificates bsdmainutils
 # Install Postfix Package OR https://hub.docker.com/r/catatnight/postfix/
 # RUN debconf-set-selections <<< "postfix postfix/mailname string your.hostname.com" && \
