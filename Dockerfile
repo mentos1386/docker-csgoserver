@@ -67,13 +67,15 @@ RUN apt-get update -y && apt-get upgrade -y && \
 #     apt-get install -y postfix mailutils
 
 # script refuses to run in root, create user
+RUN echo "Creating User: csgoserver"
 RUN useradd -m csgoserver
 RUN adduser csgoserver sudo
 USER csgoserver
 WORKDIR /home/csgoserver
 
 # Download Counter-Strike: Global Offensive Dedicated Server Manager script
-RUN wget http://gameservermanagers.com/dl/csgoserver  # https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeGlobalOffensive/csgoserver
+# https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeGlobalOffensive/csgoserver
+RUN wget http://gameservermanagers.com/dl/csgoserver
 RUN chmod +x csgoserver
 
 # Edit Server Script to hold Docker Environmental Varables
@@ -100,6 +102,7 @@ RUN sed -i '/ws_start_map=/s/"\([^"]*\)"/"$WS_START_MAP"/' csgoserver
 #RUN ./csgoserver -auto-install
 
 # Edit Server Config to hold Docker Environmental Varables
+RUN echo "Editing Server Config (serverfiles/csgo/cfg/csgo-server.cfg) to hold Docker Environmental Varables"
 RUN wget https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg --output-document=csgo-server.cfg && mkdir serverfiles/csgo/cfg/ -p && mv csgo-server.cfg serverfiles/csgo/cfg/
 RUN sed -i '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/' serverfiles/csgo/cfg/csgo-server.cfg
 RUN sed -i '/rcon_password/s/"\([^"]*\)"/"$RCON_PASS"/' serverfiles/csgo/cfg/csgo-server.cfg
