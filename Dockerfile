@@ -141,4 +141,5 @@ RUN sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csg
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
 # CMD exec ./csgoserver details && exec ./csgoserver && exec ./csgoserver update && exec ./csgoserver start && bash
 ENTRYPOINT ["/home/csgoserver/./csgoserver"]
-CMD ["auto-install", "details", "update" "debug; bash"]
+# CMD ["auto-install", "details", "update" "debug; bash"]
+CMD ["details", "update" "debug; bash"]
