@@ -154,4 +154,10 @@ RUN sed -i '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/' serverfiles/csgo/cfg/csgo-s
 #
 # /bin/bash -c 'csgoserver details && ./csgoserver update && ./csgoserver && bash'
 
-CMD bash -C 'csgoserver details && ./csgoserver update && ./csgoserver';'bash'
+CMD bash -C './csgoserver details && ./csgoserver update && ./csgoserver';'bash'
+
+
+
+
+# To bash into a running container, type this:
+# docker exec -t -i container_name /bin/bash
