@@ -51,10 +51,20 @@ EXPOSE $SOURCE_TV_PORT/udp
 EXPOSE $CLIENT_PORT/udp
 #EXPOSE 1200/udp
 
+# FIX ( perl: warning: Please check that your locale settings: )
+# http://ubuntuforums.org/showthread.php?t=1346581
+RUN locale-gen en_US en_US.UTF-8 hu_HU hu_HU.UTF-8
+RUN dpkg-reconfigure locales
+
+# Install Packages
 #RUN dpkg --add-architecture i386
 RUN apt-get update -y && apt-get upgrade -y && \
-    apt-get install -qqy wget tmux mailutils postfix lib32gcc1 \
-     					 gdb ca-certificates bsdmainutils
+    apt-get install -qqy wget tmux lib32gcc1 \
+                         gdb ca-certificates bsdmainutils
+# Install Postfix Package OR https://hub.docker.com/r/catatnight/postfix/
+# RUN debconf-set-selections <<< "postfix postfix/mailname string your.hostname.com" && \
+#     debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'" && \
+#     apt-get install -y postfix mailutils
 
 # script refuses to run in root, create user
 RUN useradd -m csgoserver
@@ -62,10 +72,13 @@ RUN adduser csgoserver sudo
 USER csgoserver
 WORKDIR /home/csgoserver
 
-# download Counter-Strike: Global Offensive Dedicated Server Manager script
-#
-RUN wget http://gameservermanagers.com/dl/csgoserver
+# Download Counter-Strike: Global Offensive Dedicated Server Manager script
+RUN wget http://gameservermanagers.com/dl/csgoserver  # https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeGlobalOffensive/csgoserver
 RUN chmod +x csgoserver
+
+# DEBUGING
+RUN ls -alt
+RUN pwd
 
 # Edit Server Script to hold Docker Environmental Varables
 RUN sed -i '/emailnotification=/s/"\([^"]*\)"/"$EMAIL_NOTIFICATION"/' csgoserver
@@ -107,6 +120,11 @@ RUN sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csg
 
 # Start the server
 # https://labs.ctl.io/dockerfile-entrypoint-vs-cmd/
-WORKDIR /home/csgoserver
-ENTRYPOINT [ "exec ./csgoserver" ]
+# ENTRYPOINT [ "exec ./csgoserver" ]
+# DEBUGING
+RUN ls -alt
+RUN pwd
+
+# ENTRYPOINT [ "exec ./csgoserver" ]
+ENTRYPOINT [ "/csgoserver" ]
 CMD [ "start" ]
