@@ -138,4 +138,4 @@ ENV DOCKER_CMD_COMMAND ./csgoserver
 # CMD bash -C './csgoserver; ./csgoserver start';'bash'
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
-CMD exec ./csgoserver details && $DOCKER_CMD_COMMAND && bash
+CMD exec ./csgoserver details && exec ./csgoserver && bash
