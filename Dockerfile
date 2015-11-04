@@ -91,7 +91,7 @@ RUN sed '/ws_start_map=/s/"\([^"]*\)"/"$WS_START_MAP"/' csgoserver
 RUN ./csgoserver -autoinstall
 
 # Edit Server Config to hold Docker Environmental Varables
-RUN wget https://github.com/dgibbs64/linuxgsm/edit/master/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg -O serverfiles/csgo/cfg/csgo-server.cfg
+RUN wget https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg --output-document=csgo-server.cfg && mkdir serverfiles/csgo/cfg/ -p && mv csgo-server.cfg serverfiles/csgo/cfg/
 RUN sed '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/' serverfiles/csgo/cfg/csgo-server.cfg
 RUN sed '/rcon_password/s/"\([^"]*\)"/"$RCON_PASS"/' serverfiles/csgo/cfg/csgo-server.cfg
 RUN sed '/sv_password/s/"\([^"]*\)"/"$SERVER_PASS"/' serverfiles/csgo/cfg/csgo-server.cfg
