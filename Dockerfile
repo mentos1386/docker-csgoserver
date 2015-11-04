@@ -51,11 +51,6 @@ EXPOSE $SOURCE_TV_PORT/udp
 EXPOSE $CLIENT_PORT/udp
 #EXPOSE 1200/udp
 
-# FIX ( perl: warning: Please check that your locale settings: )
-# http://ubuntuforums.org/showthread.php?t=1346581
-RUN locale-gen en_US en_US.UTF-8 hu_HU hu_HU.UTF-8
-RUN dpkg-reconfigure locales
-
 # Install Packages
 #RUN dpkg --add-architecture i386
 RUN apt-get update -y && apt-get upgrade -y && \
@@ -65,6 +60,11 @@ RUN apt-get update -y && apt-get upgrade -y && \
 # RUN debconf-set-selections <<< "postfix postfix/mailname string your.hostname.com" && \
 #     debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'" && \
 #     apt-get install -y postfix mailutils
+
+# FIX ( perl: warning: Please check that your locale settings: )
+# http://ubuntuforums.org/showthread.php?t=1346581
+RUN locale-gen en_US en_US.UTF-8 hu_HU hu_HU.UTF-8
+RUN dpkg-reconfigure locales
 
 # script refuses to run in root, create user
 RUN useradd -m csgoserver
@@ -96,7 +96,7 @@ RUN sed -i '/updateonstart=/s/"\([^"]*\)"/"$UPDATE_ON_START"/' csgoserver
 RUN sed -i '/authkey=/s/"\([^"]*\)"/"$AUTH_KEY"/' csgoserver
 RUN sed -i '/ws_collection_id=/s/"\([^"]*\)"/"$WS_COLLECTION_ID"/' csgoserver
 RUN sed -i '/ws_start_map=/s/"\([^"]*\)"/"$WS_START_MAP"/' csgoserver
-RUN cat csgoserver  # DEBUG
+# RUN cat csgoserver  # DEBUG
 
 # Run Install Script
 RUN ./csgoserver auto-install
@@ -108,7 +108,7 @@ RUN sed -i '/rcon_password/s/"\([^"]*\)"/"$RCON_PASS"/' serverfiles/csgo/cfg/csg
 RUN sed -i '/sv_password/s/"\([^"]*\)"/"$SERVER_PASS"/' serverfiles/csgo/cfg/csgo-server.cfg
 RUN sed -i '/sv_lan/s/"\([^"]*\)"/"$SERVER_LAN"/' serverfiles/csgo/cfg/csgo-server.cfg
 RUN sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csgo-server.cfg
-RUN cat serverfiles/csgo/cfg/csgo-server.cfg  # DEBUG
+# RUN cat serverfiles/csgo/cfg/csgo-server.cfg  # DEBUG
 
 # To edit the server.cfg or insert maps
 # we will need to some work with files
@@ -138,4 +138,4 @@ ENV DOCKER_CMD_COMMAND ./csgoserver
 # CMD bash -C './csgoserver; ./csgoserver start';'bash'
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
-CMD "$DOCKER_CMD_COMMAND" && bash
+CMD exec ./csgoserver details && $DOCKER_CMD_COMMAND && bash
