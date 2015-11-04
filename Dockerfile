@@ -140,8 +140,8 @@ ENV DOCKER_CMD_COMMAND details
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
 # CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
 # CMD exec ./csgoserver details && exec ./csgoserver && exec ./csgoserver update && exec ./csgoserver start && bash
-# ENTRYPOINT ["/home/csgoserver/./csgoserver"]  # WORKING
+ENTRYPOINT ["/home/csgoserver/./csgoserver"]  # WORKING
 # ENTRYPOINT ["./csgoserver"]
-ENTRYPOINT ["$DOCKER_ENTRYPOINT_COMMAND"]
+# ENTRYPOINT ["$DOCKER_ENTRYPOINT_COMMAND"]
 # CMD ["auto-install", "details", "update" "debug; bash"]
 CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
