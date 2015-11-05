@@ -8,7 +8,7 @@ Also see [johnjelinek/csgoserver](https://registry.hub.docker.com/u/johnjelinek/
 ### Installation
 1. Install [Docker](https://www.docker.com/).
 2. Download [automated build](https://registry.hub.docker.com/u/johnjelinek/csgoserver/) from public [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull austinsaintaubin/docker-csgoserver`
-   (alternatively, you can build an image from Dockerfile: `docker build -t="austinsaintaubin/docker-csgoserver" github.com/AustinSaintAubin/docker-csgoserver`)
+   (alternatively, you can build an image from Dockerfile: `docker build -t="austinsaintaubin/docker-csgoserver" github.com/AustinSaintAubin/docker-csgoserver#master`)
 
 ### Usage
 Once the container starts open a terminal season to it.
