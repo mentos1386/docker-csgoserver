@@ -77,7 +77,7 @@ RUN apt-get clean && \
     rm -fr /tmp/*
 
 # Create softlink for script (Downloaded Later), this will allow ENTRYPOINT to find the script ( endpoint runs in /root/ )
-RUN ln -s "/home/csgoserver/csgoserver" "/root/csgoserver"
+# RUN ln -s "/home/csgoserver/csgoserver" "/root/csgoserver"
 
 # Create user to run as
 # script refuses to run in root, create user
@@ -144,6 +144,6 @@ RUN echo '# Docker Start / Run Script' > start.sh && \
 # http://www.markbetz.net/2014/03/17/docker-run-startup-scripts-then-exit-to-a-shell/
 # http://crosbymichael.com/dockerfile-best-practices.html
 # https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/
-# CMD ["/bin/bash", "-c", "set -e && /home/csgoserver/start.sh"]  # DOES NOT STAY RUNNING.
 # ENTRYPOINT ["./csgoserver"]  # does not work the way I want to.
+# CMD ["/bin/bash", "-c", "set -e && /home/csgoserver/start.sh"]  # DOES NOT STAY RUNNING.
 CMD bash -c 'exec /home/csgoserver/start.sh';'bash'
