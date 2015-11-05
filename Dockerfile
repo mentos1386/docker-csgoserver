@@ -90,7 +90,7 @@ WORKDIR /home/csgoserver
 
 # Volume
 RUN chown -R csgoserver:csgoserver /home/csgoserver
-VOLUME ["/home/csgoserver/serverfiles"]
+# VOLUME ["/home/csgoserver/serverfiles"]
 
 # Download CSGO Server Manager Script
 # https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeGlobalOffensive/csgoserver
@@ -146,5 +146,5 @@ RUN echo '# Docker Start / Run Script' > start.sh && \
 # http://www.markbetz.net/2014/03/17/docker-run-startup-scripts-then-exit-to-a-shell/
 # http://crosbymichael.com/dockerfile-best-practices.html
 # https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/
-ENTRYPOINT ["./csgoserver"]
+# ENTRYPOINT ["./csgoserver"]  # does not work the way I want to.
 CMD bash -c 'exec /home/csgoserver/start.sh';'bash'
