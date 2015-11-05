@@ -160,7 +160,6 @@ RUN echo '# Docker Start / Run Script' > start.sh && \
     echo './csgoserver details' >> start.sh && \
     echo './csgoserver auto-install' >> start.sh && \
     echo './csgoserver update' >> start.sh && \
-    echo 'cp csgo-server.cfg serverfiles/csgo/cfg/' >> start.sh && \
     echo '' >> start.sh && \
     echo '# Edit Server Config to hold Docker Environmental Varables' >> start.sh && \
     echo '# ------------------' >> start.sh && \
