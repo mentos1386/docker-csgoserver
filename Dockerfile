@@ -164,8 +164,9 @@ RUN echo './csgoserver auto-install
 
 # Run Start Script
 # ENTRYPOINT /bin/bash
-CMD bash -C '/home/csgoserver/./start.sh';'bash'
-
+# CMD bash -c 'exec /home/csgoserver/start.sh';'bash'
+# https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/
+CMD ["/bin/bash", "-c", "set -e && /home/csgoserver/start.sh"]
 
 
 
