@@ -155,18 +155,19 @@ RUN sed -i '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/' serverfiles/csgo/cfg/csgo-s
 # /bin/bash -c 'csgoserver details && ./csgoserver update && ./csgoserver && bash'
 
 # Make Start Script
-RUN echo './csgoserver auto-install' >> start.sh && \
-    echo './csgoserver details' > start.sh && \
-    echo 'cp csgo-server.cfg serverfiles/csgo/cfg/' > start.sh && \
-    echo './csgoserver start' > start.sh && \
-    echo './csgoserver' > start.sh && \
+RUN echo './csgoserver auto-install' > start.sh && \
+    echo './csgoserver details' >> start.sh && \
+    echo 'cp csgo-server.cfg serverfiles/csgo/cfg/' >> start.sh && \
+    echo './csgoserver start' >> start.sh && \
+    echo './csgoserver' >> start.sh && \
     chmod +x start.sh
 
 # Run Start Script
 # ENTRYPOINT /bin/bash
-# CMD bash -c 'exec /home/csgoserver/start.sh';'bash'
 # https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/
-CMD ["/bin/bash", "-c", "set -e && /home/csgoserver/start.sh"]
+# CMD ["/bin/bash", "-c", "set -e && /home/csgoserver/start.sh"]  # DOES NOT STAY RUNNING.
+CMD bash -c 'exec /home/csgoserver/start.sh';'bash'
+
 
 
 
