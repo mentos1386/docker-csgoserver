@@ -77,7 +77,7 @@ RUN apt-get clean && \
     rm -fr /tmp/*
 
 # Create softlink for script (Downloaded Later), this will allow ENTRYPOINT to find the script ( endpoint runs in /root/ )
-RUN ln -s "/home/csgoserver/csgoserver" "/root/csgoserver"
+# RUN ln -s "/home/csgoserver/csgoserver" "/root/csgoserver"
 
 # Create user to run as
 # script refuses to run in root, create user
