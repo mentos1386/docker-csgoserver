@@ -62,7 +62,7 @@ EXPOSE $CLIENT_PORT/udp
 
 # Install Packages / Dependencies
 RUN apt-get update -y && apt-get upgrade -y && \
-    apt-get install -qqy wget nano tmux mailutils postfix lib32gcc1 && \
+    apt-get install -qqy wget nano tmux mailutils postfix lib32gcc1 \
                          gdb ca-certificates bsdmainutils
 # Install Postfix Package OR https://hub.docker.com/r/catatnight/postfix/
 
