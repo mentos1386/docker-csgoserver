@@ -143,5 +143,5 @@ RUN echo '# Docker Start / Run Script' > start.sh && \
 # http://www.markbetz.net/2014/03/17/docker-run-startup-scripts-then-exit-to-a-shell/
 # http://crosbymichael.com/dockerfile-best-practices.html
 # https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/
-# ENTRYPOINT ["./csgoserver"]
+ENTRYPOINT ["./csgoserver"]
 CMD bash -c 'exec /home/csgoserver/start.sh';'bash'
