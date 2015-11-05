@@ -101,60 +101,6 @@ RUN sed -i '/emailnotification=/s/"\([^"]*\)"/"$EMAIL_NOTIFICATION"/' csgoserver
 # Run Install Script
 # RUN ./csgoserver auto-install
 
-# Edit Server Config to hold Docker Environmental Varables
-# RUN wget https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg --output-document=csgo-server.cfg
-# RUN sed -i '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/' csgo-server.cfg && \
-#     sed -i '/rcon_password/s/"\([^"]*\)"/"$RCON_PASS"/' csgo-server.cfg && \
-#     sed -i '/sv_password/s/"\([^"]*\)"/"$SERVER_PASS"/' csgo-server.cfg && \
-#     sed -i '/sv_lan/s/"\([^"]*\)"/"$SERVER_LAN"/' csgo-server.cfg && \
-#     sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' csgo-server.cfg && \
-#     mkdir serverfiles/csgo/cfg/ -p && cp csgo-server.cfg serverfiles/csgo/cfg/
-# RUN cat serverfiles/csgo/cfg/csgo-server.cfg  # DEBUG
-
-# To edit the server.cfg or insert maps
-# we will need to some work with files
-# this is where it will go
-# Start the server
-#WORKDIR /home/csgoserver/serverfiles
-#ENTRYPOINT ../csgoserver update && ./hlds_run -game cstrike -strictportbind -ip 0.0.0.0 -port $PORT +clientport $CLIENTPORT  +map $DEFAULTMAP -maxplayers $MAXPLAYERS
-
-# Start the server
-# https://labs.ctl.io/dockerfile-entrypoint-vs-cmd/
-# http://stackoverflow.com/questions/21553353/what-is-the-difference-between-cmd-and-entrypoint-in-a-dockerfile
-# http://kimh.github.io/blog/en/docker/gotchas-in-writing-dockerfile-en/
-# http://www.markbetz.net/2014/03/17/docker-run-startup-scripts-then-exit-to-a-shell/
-# http://crosbymichael.com/dockerfile-best-practices.html
-# ENTRYPOINT [ "exec ./csgoserver" ]
-# ENTRYPOINT [ "exec ./csgoserver" ]
-
-# ENTRYPOINT [ "csgoserver" ]
-# CMD start
-
-# ENV DOCKER_ENTRYPOINT_COMMAND ./csgoserver
-# ENV DOCKER_CMD_COMMAND details
-# ENTRYPOINT $ENTRYPOINT
-# CMD [ "./csgoserver", "start" ]
-
-# CMD bash -C './csgoserver start';'bash'
-# CMD bash -C './csgoserver';'bash'
-# CMD bash -C './csgoserver; ./csgoserver start';'bash'
-# CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
-# CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
-# CMD exec ./csgoserver details && exec ./csgoserver && exec ./csgoserver update && exec ./csgoserver start && bash
-# ENTRYPOINT ["/home/csgoserver/./csgoserver"]  # WORKING
-# ENTRYPOINT ["./csgoserver"]
-# ENTRYPOINT ["$DOCKER_ENTRYPOINT_COMMAND"]
-# CMD ["auto-install", "details", "update" "debug; bash"]
-# CMD bash -C "$DOCKER_CMD_COMMAND";'bash'
-
-# CMD bash -C './csgoserver; ./csgoserver start';'bash'
-# http://timmurphy.org/2015/02/27/running-multiple-programs-in-a-docker-container-from-the-command-line/
-# CMD '<./csgoserver details && ./csgoserver update && ./csgoserver && bash>'
-#
-# bash -c '';'bash'
-#
-# /bin/bash -c 'csgoserver details && ./csgoserver update && ./csgoserver && bash'
-
 # Make Start Script
 RUN echo '# Docker Start / Run Script' > start.sh && \
     echo './csgoserver details' >> start.sh && \
@@ -172,13 +118,11 @@ RUN echo '# Docker Start / Run Script' > start.sh && \
     chmod +x start.sh
 
 # Run Start Script
-# ENTRYPOINT /bin/bash
+# https://labs.ctl.io/dockerfile-entrypoint-vs-cmd/
+# http://stackoverflow.com/questions/21553353/what-is-the-difference-between-cmd-and-entrypoint-in-a-dockerfile
+# http://kimh.github.io/blog/en/docker/gotchas-in-writing-dockerfile-en/
+# http://www.markbetz.net/2014/03/17/docker-run-startup-scripts-then-exit-to-a-shell/
+# http://crosbymichael.com/dockerfile-best-practices.html
 # https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/
 # CMD ["/bin/bash", "-c", "set -e && /home/csgoserver/start.sh"]  # DOES NOT STAY RUNNING.
 CMD bash -c 'exec /home/csgoserver/start.sh';'bash'
-
-
-
-
-# To bash into a running container, type this:
-# docker exec -t -i container_name /bin/bash
