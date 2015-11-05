@@ -1,5 +1,14 @@
-FROM ubuntu
+#
+# CSGO Dockerfile
+#
+# https://hub.docker.com/r/austinsaintaubin/docker-csgoserver/
+# Also see: https://hub.docker.com/r/johnjelinek/csgoserver/~/dockerfile/
+
+# Pull the base image
+FROM ubuntu:14.04
 MAINTAINER Austin St. Aubin <AustinSaintAubin@gmail.com>
+
+ENV DEBIAN_FRONTEND noninteractive
 
 #### Variables ####
 ENV SERVER_NAME "Counter Strike: Global Offensive Docker Server"
@@ -51,28 +60,36 @@ EXPOSE $SOURCE_TV_PORT/udp
 EXPOSE $CLIENT_PORT/udp
 #EXPOSE 1200/udp
 
-# Install Packages
-#RUN dpkg --add-architecture i386
+# Install Packages / Dependencies
 RUN apt-get update -y && apt-get upgrade -y && \
-    apt-get install -qqy wget nano tmux lib32gcc1 \
+    apt-get install -qqy wget nano tmux lmailutils postfix lib32gcc1 \
                          gdb ca-certificates bsdmainutils
 # Install Postfix Package OR https://hub.docker.com/r/catatnight/postfix/
-# RUN debconf-set-selections <<< "postfix postfix/mailname string your.hostname.com" && \
-#     debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'" && \
-#     apt-get install -y postfix mailutils
 
 # FIX ( perl: warning: Please check that your locale settings: )
 # http://ubuntuforums.org/showthread.php?t=1346581
 RUN locale-gen en_US en_US.UTF-8 hu_HU hu_HU.UTF-8
 RUN dpkg-reconfigure locales
 
+# Cleanup
+RUN apt-get clean && \
+    rm -fr /var/lib/apt/lists/* && \
+    rm -fr /tmp/*
+
+# Create user to run as
 # script refuses to run in root, create user
-RUN useradd -m csgoserver
-RUN adduser csgoserver sudo
+RUN groupadd -r csgoserver && \
+	useradd -rm -g csgoserver csgoserver && \
+	adduser csgoserver sudo && \
+	echo "csgoserver ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 USER csgoserver
 WORKDIR /home/csgoserver
 
-# Download Counter-Strike: Global Offensive Dedicated Server Manager script
+# Volume
+RUN chown -R csgoserver:csgoserver /home/csgoserver
+VOLUME ["/home/csgoserver"]
+
+# Download CSGO Server Manager Script
 # https://raw.githubusercontent.com/dgibbs64/linuxgameservers/master/CounterStrikeGlobalOffensive/csgoserver
 RUN wget http://gameservermanagers.com/dl/csgoserver && \
     chmod +x csgoserver
@@ -126,5 +143,5 @@ RUN echo '# Docker Start / Run Script' > start.sh && \
 # http://www.markbetz.net/2014/03/17/docker-run-startup-scripts-then-exit-to-a-shell/
 # http://crosbymichael.com/dockerfile-best-practices.html
 # https://blog.phusion.nl/2015/01/20/docker-and-the-pid-1-zombie-reaping-problem/
-# CMD ["/bin/bash", "-c", "set -e && /home/csgoserver/start.sh"]  # DOES NOT STAY RUNNING.
+# ENTRYPOINT ["./csgoserver"]
 CMD bash -c 'exec /home/csgoserver/start.sh';'bash'
