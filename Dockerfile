@@ -102,12 +102,13 @@ RUN sed -i '/emailnotification=/s/"\([^"]*\)"/"$EMAIL_NOTIFICATION"/' csgoserver
 # RUN ./csgoserver auto-install
 
 # Edit Server Config to hold Docker Environmental Varables
-RUN wget https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg --output-document=csgo-server.cfg && mkdir serverfiles/csgo/cfg/ -p && cp csgo-server.cfg serverfiles/csgo/cfg/
+RUN wget https://raw.githubusercontent.com/dgibbs64/linuxgsm/master/CounterStrikeGlobalOffensive/cfg/lgsm-default.cfg --output-document=csgo-server.cfg
 RUN sed -i '/hostname/s/"\([^"]*\)"/"$SERVER_NAME"/' serverfiles/csgo/cfg/csgo-server.cfg && \
     sed -i '/rcon_password/s/"\([^"]*\)"/"$RCON_PASS"/' serverfiles/csgo/cfg/csgo-server.cfg && \
     sed -i '/sv_password/s/"\([^"]*\)"/"$SERVER_PASS"/' serverfiles/csgo/cfg/csgo-server.cfg && \
     sed -i '/sv_lan/s/"\([^"]*\)"/"$SERVER_LAN"/' serverfiles/csgo/cfg/csgo-server.cfg && \
-    sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csgo-server.cfg
+    sed -i '/sv_region/s/"\([^"]*\)"/"$SERVER_REGION"/' serverfiles/csgo/cfg/csgo-server.cfg && \
+    mkdir serverfiles/csgo/cfg/ -p && cp csgo-server.cfg serverfiles/csgo/cfg/
 # RUN cat serverfiles/csgo/cfg/csgo-server.cfg  # DEBUG
 
 # To edit the server.cfg or insert maps
