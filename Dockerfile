@@ -123,19 +123,21 @@ RUN sed -i '/emailnotification=/s/"\([^"]*\)"/"$EMAIL_NOTIFICATION"/' csgoserver
 
 # Make Start Script
 RUN echo '# Docker Start / Run Script' > start.sh && \
-    echo './csgoserver auto-install' >> start.sh && \
-    echo './csgoserver update' >> start.sh && \
-    echo './csgoserver details' >> start.sh && \
     echo '' >> start.sh && \
     echo '# Edit Server Config to hold Docker Environmental Varables' >> start.sh && \
     echo '# ------------------' >> start.sh && \
-    echo 'sed -i "/hostname/s/\"\([^\"]*\)\"/\"$SERVER_NAME\"/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
-    echo 'sed -i "/rcon_password/s/\"\([^\"]*\)\"/\"$RCON_PASS\"/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
-    echo 'sed -i "/sv_password/s/\"\([^\"]*\)\"/\"$SERVER_PASS\"/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
-    echo 'sed -i "/sv_lan/s/\"\([^\"]*\)\"/\"$SERVER_LAN\"/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
-    echo 'sed -i "/sv_region/s/\"\([^\"]*\)\"/\"$SERVER_REGION\"/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
+    echo 'sed -i "/hostname/s/\"\([^\"]*\)\"/$SERVER_NAME/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
+    echo 'sed -i "/rcon_password/s/\"\([^\"]*\)\"/$RCON_PASS/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
+    echo 'sed -i "/sv_password/s/\"\([^\"]*\)\"/$SERVER_PASS/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
+    echo 'sed -i "/sv_lan/s/\"\([^\"]*\)\"/$SERVER_LAN/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
+    echo 'sed -i "/sv_region/s/\"\([^\"]*\)\"/$SERVER_REGION/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
     echo '# ------------------' >> start.sh && \
-    echo './csgoserver start' >> start.sh && \
+    echo '' >> start.sh && \
+    echo '# Script Manager' >> start.sh && \
+#     echo './csgoserver auto-install' >> start.sh && \
+#     echo './csgoserver update' >> start.sh && \
+    echo './csgoserver details' >> start.sh && \
+#     echo './csgoserver start' >> start.sh && \
     echo './csgoserver' >> start.sh && \
     chmod +x start.sh
 
