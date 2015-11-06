@@ -71,10 +71,10 @@ RUN apt-get update -y && apt-get upgrade -y && \
 RUN locale-gen en_US en_US.UTF-8 hu_HU hu_HU.UTF-8
 RUN dpkg-reconfigure locales
 
-# Cleanup
-RUN apt-get clean && \
-    rm -fr /var/lib/apt/lists/* && \
-    rm -fr /tmp/*
+# # Cleanup
+# RUN apt-get clean && \
+#     rm -fr /var/lib/apt/lists/* && \
+#     rm -fr /tmp/*
 
 # Create softlink for script (Downloaded Later), this will allow ENTRYPOINT to find the script ( endpoint runs in /root/ )
 # RUN ln -s "/home/csgoserver/csgoserver" "/root/csgoserver"
