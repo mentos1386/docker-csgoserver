@@ -11,7 +11,7 @@ MAINTAINER Austin St. Aubin <AustinSaintAubin@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
 
 #### Variables ####
-ENV SERVER_NAME "Counter Strike: Global Offensive Docker Server"
+ENV SERVER_NAME "Counter Strike: Global Offensive - Docker Server"
 ENV RCON_PASS rconpass
 ENV SERVER_PASS ""
 ENV SERVER_LAN 0
@@ -126,19 +126,20 @@ RUN echo '# Docker Start / Run Script' > start.sh && \
     echo '' >> start.sh && \
     echo '# Edit Server Config to hold Docker Environmental Varables' >> start.sh && \
     echo '# ------------------' >> start.sh && \
-    echo 'sed -i "/hostname/s/\"\([^\"]*\)\"/$SERVER_NAME/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
-    echo 'sed -i "/rcon_password/s/\"\([^\"]*\)\"/$RCON_PASS/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
-    echo 'sed -i "/sv_password/s/\"\([^\"]*\)\"/$SERVER_PASS/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
-    echo 'sed -i "/sv_lan/s/\"\([^\"]*\)\"/$SERVER_LAN/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
-    echo 'sed -i "/sv_region/s/\"\([^\"]*\)\"/$SERVER_REGION/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
+    echo 'sed -i "/hostname/s/\"\([^\"]*\)\"/\"$SERVER_NAME\"/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
+    echo 'sed -i "/rcon_password/s/\"\([^\"]*\)\"/\"$RCON_PASS\"/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
+    echo 'sed -i "/sv_password/s/\"\([^\"]*\)\"/\"$SERVER_PASS\"/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
+    echo 'sed -i "/sv_lan/s/\"\([^\"]*\)\"/\"$SERVER_LAN\"/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
+    echo 'sed -i "/sv_region/s/\"\([^\"]*\)\"/\"$SERVER_REGION\"/" serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
+    echo 'sed -i '\''s/""/"/g'\'' serverfiles/csgo/cfg/csgo-server.cfg' >> start.sh && \
     echo '# ------------------' >> start.sh && \
     echo '' >> start.sh && \
     echo '# Script Manager' >> start.sh && \
 #     echo './csgoserver auto-install' >> start.sh && \
 #     echo './csgoserver update' >> start.sh && \
-    echo './csgoserver details' >> start.sh && \
-#     echo './csgoserver start' >> start.sh && \
+#     echo './csgoserver details' >> start.sh && \
     echo './csgoserver' >> start.sh && \
+    echo './csgoserver start' >> start.sh && \
     chmod +x start.sh
 
 # Run Start Script
