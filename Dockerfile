@@ -142,6 +142,17 @@ RUN echo '# Docker Start / Run Script' > start.sh && \
     echo './csgoserver start' >> start.sh && \
     chmod +x start.sh
 
+# Make Steam 1st time Autentiaction (used to setup cached cradentuals for accounts with 2 factor authentication)
+RUN echo '# Steam 1st time Autentiaction (used to setup cached cradentuals for accounts with 2 factor authentication)' > steam-login.sh && \
+    echo '# ------------------' >> steam-login.sh && \
+    echo 'echo Before running this script you might have to run "./csgoserver install" to download "steamcmd"' >> steam-login.sh && \
+    echo 'echo After running this script, edit "csgoserver" script or the "STEAM_PASS" envirmental varable and clear out the password with a space or leave it blank' >> steam-login.sh && \
+    echo 'echo =================' >> steam-login.sh && \
+    #echo 'echo enter password & 2nd factor' >> start.sh && \
+    echo 'steamcmd/./steamcmd.sh +login $STEAM_USER $STEAM_PASS  # Login to steam' >> steam-login.sh && \
+    echo 'sed -i "/steampass=/s/\"\([^\"]*\)\"/\"\"/" csgoserver  # CLEAR PASSWORD FIELD in csgoserver script' >> steam-login.sh && \
+    chmod +x steam-login.sh
+
 # Run Start Script
 # https://labs.ctl.io/dockerfile-entrypoint-vs-cmd/
 # http://stackoverflow.com/questions/21553353/what-is-the-difference-between-cmd-and-entrypoint-in-a-dockerfile
