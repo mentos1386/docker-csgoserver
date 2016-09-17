@@ -60,8 +60,8 @@ EXPOSE $CLIENT_PORT/udp
 
 # Install Packages / Dependencies
 RUN dpkg --add-architecture i386; \
-    sudo apt-get update; \
-    sudo apt-get install mailutils postfix curl wget file gzip bzip2 bsdmainutils python \
+    apt-get update; \
+    apt-get install mailutils postfix curl wget file gzip bzip2 bsdmainutils python \
         util-linux tmux lib32gcc1 libstdc++6 libstdc++6:i386; \
     apt-get clean && rm -fr /var/lib/apt/lists/* && rm -fr /tmp/*
 
