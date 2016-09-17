@@ -62,7 +62,7 @@ EXPOSE $CLIENT_PORT/udp
 RUN dpkg --add-architecture i386; \
     apt-get update; \
     apt-get install mailutils postfix curl wget file gzip bzip2 bsdmainutils python \
-        util-linux tmux lib32gcc1 libstdc++6 libstdc++6:i386; \
+        util-linux tmux lib32gcc1 libstdc++6 libstdc++6:i386 -y; \
     apt-get clean && rm -fr /var/lib/apt/lists/* && rm -fr /tmp/*
 
 # Create softlink for script (Downloaded Later), this will allow ENTRYPOINT to find the script ( endpoint runs in /root/ )
